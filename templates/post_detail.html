@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{ post.title }}</h1>
+    <p><small>Publicado em: {{ post.post_date|date:"d/m/Y H:i" }}</small></p>
+    
+    <div>
+        {{ post.content|safe }}
+    </div>
+
+    <hr>
+    <h3>Comentários</h3>
+    <p><a href="{% url 'comment_create' post.pk %}">Adicionar Comentário</a></p>
+
+    {% for comment in comments %}
+        <div>
+            <p><strong>{{ comment.author.username }}</strong> em {{ comment.post_date|date:"d/m/Y H:i" }}:</p>
+            <p>{{ comment.text }}</p>
+        </div>
+        <hr>
+    {% empty %}
+        <p>Nenhum comentário ainda.</p>
+    {% endfor %}
+    <a href="{% url 'post_update' post.pk %}">Editar Post</a> |
+    <a href="{% url 'post_delete' post.pk %}">Remover Post</a> |
+    <a href="{% url 'post_list' %}">Voltar para a lista</a>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Novo Comentário em "{{ post.title }}"</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <p>
+            <label for="author">Autor:</label><br>
+            <select id="author" name="author" required>
+                {% for u in users %}
+                    <option value="{{ u.pk }}">{{ u.username }}</option>
+                {% endfor %}
+            </select>
+        </p>
+        <p>
+            <label for="text">Comentário:</label><br>
+            <textarea id="text" name="text" rows="5" cols="50" required></textarea>
+        </p>
+        <button type="submit">Publicar Comentário</button>
+        <a href="{% url 'post_detail' post.pk %}">Cancelar</a>
+    </form>
+{% endblock %}
