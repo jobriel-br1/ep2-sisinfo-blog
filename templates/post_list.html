@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Lista de Posts</h1>
+    {% for post in posts %}
+        <article>
+            <h2><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h2>
+            <p><small>Publicado em: {{ post.post_date|date:"d/m/Y H:i" }}</small></p>
+        </article>
+        <hr>
+    {% empty %}
+        <p>Nenhum post cadastrado.</p>
+    {% endfor %}
+{% endblock %}
