@@ -1,21 +1,95 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Meu Blog Django{% endblock %}</title>
+    <title>{% block title %}Meu Blog Sobre Personagens da Ficção{% endblock %}</title>
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <style>
+        body {
+            background-color: #f8fafc;
+        }
+        header.top-nav {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+        header.top-nav nav {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .brand {
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: #0f172a;
+            text-decoration: none;
+        }
+        main.container {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 0 1rem 3rem 1rem;
+        }
+        article.card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+        }
+        .badge {
+            display: inline-block;
+            background-color: #e0f2fe;
+            color: #0369a1;
+            padding: 0.2rem 0.65rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-decoration: none;
+            margin-right: 0.35rem;
+        }
+        .badge:hover {
+            background-color: #bae6fd;
+        }
+        .meta {
+            color: #64748b;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+        .actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .comment-box {
+            background-color: #f1f5f9;
+            border-left: 4px solid #0284c7;
+            padding: 1rem 1.25rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+    </style>
 </head>
 <body>
-    <header>
+    <header class="top-nav">
         <nav>
-            <a href="{% url 'post_list' %}">Início (Posts)</a> |
-            <a href="{% url 'post_create' %}">Novo Post</a>
-            
+            <a href="{% url 'post_list' %}" class="brand">MeuBlog</a>
+            <div>
+                <a href="{% url 'post_list' %}" style="margin-right: 1rem;">Início (Posts)</a>
+                <a href="{% url 'category_list' %}" style="margin-right: 1rem;">Categorias</a>
+                <a href="{% url 'post_create' %}" role="button" class="outline" style="padding: 0.35rem 0.85rem;">+ Novo Post</a>
+            </div>
         </nav>
-        <hr>
     </header>
 
-    <main>
+    <main class="container">
         {% block content %}
         {% endblock %}
     </main>

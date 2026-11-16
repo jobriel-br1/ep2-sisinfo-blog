@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth import get_user_model
-from .models import Post, Comment
+from .models import Post, Comment, Category
 from .forms import PostForm
 
 def comment_create(request, pk):
@@ -16,6 +16,15 @@ def comment_create(request, pk):
         Comment.objects.create(post=post, author=author, text=text)
         return redirect('post_detail', pk=post.pk)
     return render(request, 'comment_form.html', {'post': post, 'users': users})
+
+def category_list(request):
+    categories = Category.objects.all()
+    return render(request, 'category_list.html', {'categories': categories})
+
+def category_detail(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+    posts = category.posts.all().order_by('-post_date')
+    return render(request, 'post_list.html', {'posts': posts, 'category': category})
 
 class PostListView(ListView):
     model = Post

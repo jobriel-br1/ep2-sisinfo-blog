@@ -1,27 +1,45 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{{ post.title }}</h1>
-    <p><small>Publicado em: {{ post.post_date|date:"d/m/Y H:i" }}</small></p>
-    
-    <div>
-        {{ post.content|safe }}
-    </div>
+    <article class="card">
+        <h1 style="margin-bottom: 0.25rem;">{{ post.title }}</h1>
+        <p class="meta">Publicado em {{ post.post_date|date:"d/m/Y \à\s H:i" }}</p>
 
-    <hr>
-    <h3>Comentários</h3>
-    <p><a href="{% url 'comment_create' post.pk %}">Adicionar Comentário</a></p>
-
-    {% for comment in comments %}
-        <div>
-            <p><strong>{{ comment.author.username }}</strong> em {{ comment.post_date|date:"d/m/Y H:i" }}:</p>
-            <p>{{ comment.text }}</p>
+        <div style="margin-bottom: 1.5rem;">
+            {% for cat in post.categories.all %}
+                <a href="{% url 'category_detail' cat.pk %}" class="badge">{{ cat.name }}</a>
+            {% empty %}
+                <span class="meta">Sem categoria</span>
+            {% endfor %}
         </div>
+
+        <div>
+            {{ post.content|safe }}
+        </div>
+
         <hr>
-    {% empty %}
-        <p>Nenhum comentário ainda.</p>
-    {% endfor %}
-    <a href="{% url 'post_update' post.pk %}">Editar Post</a> |
-    <a href="{% url 'post_delete' post.pk %}">Remover Post</a> |
-    <a href="{% url 'post_list' %}">Voltar para a lista</a>
+        <div class="actions">
+            <a href="{% url 'post_update' post.pk %}" role="button" class="secondary outline">Editar Post</a>
+            <a href="{% url 'post_delete' post.pk %}" role="button" class="contrast outline">Remover Post</a>
+            <a href="{% url 'post_list' %}" role="button" class="outline">Voltar para a lista</a>
+        </div>
+    </article>
+
+    <article class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3 style="margin: 0;">Comentários ({{ comments|length }})</h3>
+            <a href="{% url 'comment_create' post.pk %}" role="button" style="padding: 0.4rem 0.9rem;">+ Adicionar Comentário</a>
+        </div>
+
+        {% for comment in comments %}
+            <div class="comment-box">
+                <p class="meta" style="margin-bottom: 0.4rem;">
+                    <strong>{{ comment.author.username }}</strong> • {{ comment.post_date|date:"d/m/Y H:i" }}
+                </p>
+                <p style="margin: 0;">{{ comment.text }}</p>
+            </div>
+        {% empty %}
+            <p class="meta" style="margin: 0;">Nenhum comentário ainda. Seja o primeiro a comentar!</p>
+        {% endfor %}
+    </article>
 {% endblock %}

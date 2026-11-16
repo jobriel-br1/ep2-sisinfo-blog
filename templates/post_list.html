@@ -1,14 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Lista de Posts</h1>
+    {% if category %}
+        <hgroup>
+            <h1>Categoria: {{ category.name }}</h1>
+            <p>{{ category.description }}</p>
+        </hgroup>
+    {% else %}
+        <h1>Últimas Postagens</h1>
+    {% endif %}
+
     {% for post in posts %}
-        <article>
-            <h2><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h2>
-            <p><small>Publicado em: {{ post.post_date|date:"d/m/Y H:i" }}</small></p>
+        <article class="card">
+            <h2 style="margin-bottom: 0.25rem;">
+                <a href="{% url 'post_detail' post.pk %}" style="text-decoration: none;">{{ post.title }}</a>
+            </h2>
+            <p class="meta">Publicado em {{ post.post_date|date:"d/m/Y \à\s H:i" }}</p>
+            <div>
+                {% for cat in post.categories.all %}
+                    <a href="{% url 'category_detail' cat.pk %}" class="badge">{{ cat.name }}</a>
+                {% endfor %}
+            </div>
         </article>
-        <hr>
     {% empty %}
-        <p>Nenhum post cadastrado.</p>
+        <article class="card">
+            <p style="margin: 0;">Nenhum post cadastrado.</p>
+        </article>
     {% endfor %}
 {% endblock %}
